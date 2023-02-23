@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./images/favicon-32x32.png"
+    />
+    <link rel="stylesheet" href="./css/style.css" />
+    <script src="main.js" defer></script>
+    <title>Frontend Mentor | Calculator app</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="calculator theme1" data-calculator>
+        <!-- Calc Header -->
+        <div class="calc-header">
+          <h1>CASIO</h1>
+
+          <div class="theme">
+            <span class="theme-title">Theme</span>
+
+            <div class="theme-nums-checker">
+              <div class="nums">
+                <span>1</span>
+                <span>2</span>
+                <span>3</span>
+              </div>
+
+              <div class="checker" data-checker>
+                <input type="range" value="1" min="1" max="3" class="slider" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Calc Screen -->
+        <div class="calc-screen">
+          <div>
+            <span class="chosen-first-operand" data-chosen-first-operand></span>
+            <span class="operand-type" data-operand-type></span>
+            <span
+              class="chosen-second-operand"
+              data-chosen-second-operand
+            ></span>
+          </div>
+
+          <div>
+            <span class="calc-equals" data-calc-equals></span>
+            <span class="typing-num" data-typing-num>0</span>
+          </div>
+        </div>
+
+        <!-- Calc Keypad -->
+        <div class="calc-keypad" data-calc-keypad>
+          <div class="keypad">
+            <span>7</span>
+            <span>8</span>
+            <span>9</span>
+            <span class="del">DEL</span>
+            <span>4</span>
+            <span>5</span>
+            <span>6</span>
+            <span class="addition">+</span>
+            <span>1</span>
+            <span>2</span>
+            <span>3</span>
+            <span class="soustraction">-</span>
+            <span class="decimal">.</span>
+            <span>0</span>
+            <span class="division">/</span>
+            <span class="mutiplication">x</span>
+          </div>
+
+          <div class="reset-result">
+            <span class="reset">RESET</span>
+            <span class="equals">=</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <br /><br />
+    <div class="attribution">
+      Challenge by
+      <a href="https://www.frontendmentor.io?ref=challenge" target="_blank"
+        >Frontend Mentor</a
+      >. Coded by
+      <a href="https://btkdevkh.netlify.app/" target="_blank">Bunthoeun KONG</a
+      >.
+    </div>
+  </body>
+</html>
