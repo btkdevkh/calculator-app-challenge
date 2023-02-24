@@ -163,5 +163,5 @@ function reset() {
   chosen_2_Operand.textContent = ""
 }
 
-checker.addEventListener("click", getThemeChoice)
+checker.addEventListener("change", getThemeChoice)
 calcKeypad.addEventListener("click", getCalcType)
