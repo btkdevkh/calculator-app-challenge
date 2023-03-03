@@ -207,7 +207,7 @@ body {
 .calculator.theme3 .calc-screen {
   background-color: var(--very-dark-violet-screen-bg);
 }
-.typing-num {
+.current-operand {
   font-size: 2.5rem;
 }
 .calculator.theme2 .calc-screen {

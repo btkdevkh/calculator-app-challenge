@@ -1,16 +1,13 @@
 const checker = document.querySelector("[data-checker]")
 const calculator = document.querySelector("[data-calculator]")
 const calcKeypad = document.querySelector("[data-calc-keypad]")
+const previousOperand = document.querySelector("[data-prev-operand]")
+const currentOperand = document.querySelector("[data-current-operand]")
 
-const chosen_1_Operand = document.querySelector("[data-chosen-first-operand]")
-const chosen_2_Operand = document.querySelector("[data-chosen-second-operand]")
-const operandType = document.querySelector("[data-operand-type]")
-const typingNum = document.querySelector("[data-typing-num]")
-const calcEquals = document.querySelector("[data-calc-equals]")
-
-let firstOperands = []
-let secondOperands = []
-let operation = undefined
+let firstOperand = ""
+let secondOperand = ""
+let operation = ""
+let result = null
 
 function getThemeChoice(e) {
   const themeChoice = Number(e.target.value)
@@ -44,123 +41,100 @@ function changeTheme(themeChoice) {
   }
 }
 
-function getNum(num) {
-  if (operation === undefined) {
-    if (!firstOperands.includes(".") || num !== ".") firstOperands.push(num)
-  } else {
-    if (!secondOperands.includes(".") || num !== ".") secondOperands.push(num)
-  }
-
-  chosen_1_Operand.textContent = firstOperands.join("")
-  chosen_2_Operand.textContent = secondOperands.join("")
-  typingNum.textContent =
-    operation === undefined ? firstOperands.join("") : secondOperands.join("")
+function getOperation(target) {
+  calcul(operation)
+  return target
 }
 
-function getOperation(operationType) {
-  if (operationType === "=") return
+function getNumber(target) {
+  if (operation === "") {
+    if (target === "." && firstOperand.includes(".")) return
+    firstOperand += target
+  } else {
+    if (target === "." && secondOperand.includes(".")) return
+    secondOperand += target
+  }
+}
 
-  operandType.textContent = operationType
-  return operationType
+function calcul(operation) {
+  if (operation === "+") result = Number(firstOperand) + Number(secondOperand)
+  if (operation === "-") result = Number(firstOperand) - Number(secondOperand)
+  if (operation === "x") result = Number(firstOperand) * Number(secondOperand)
+  if (operation === "/") result = Number(firstOperand) / Number(secondOperand)
+
+  if (result === Infinity || result === 0) {
+    reset()
+    return
+  }
+
+  if (result) {
+    firstOperand = result
+    operation = ""
+    secondOperand = ""
+  }
+}
+
+function updateScreen() {
+  if (!firstOperand) {
+    reset()
+    return
+  }
+
+  currentOperand.textContent = firstOperand
+  previousOperand.textContent = `${firstOperand} ${operation} ${secondOperand}`
+}
+
+function del() {
+  if (!firstOperand && !secondOperand) return
+
+  if (secondOperand) {
+    secondOperand = secondOperand.toString().slice(0, -1)
+  } else {
+    firstOperand = firstOperand.toString().slice(0, -1)
+  }
+}
+
+function reset() {
+  firstOperand = ""
+  secondOperand = ""
+  operation = ""
+  result = null
+
+  previousOperand.textContent = ""
+  currentOperand.textContent = "0"
 }
 
 function getCalcType(e) {
   if (e.target.classList.contains("calc-keypad")) return
   if (e.target.classList.contains("keypad")) return
 
-  const target = e.target.textContent
+  const target = e.target.innerText
 
   switch (target) {
     case "+":
-      operation = getOperation(target)
-      break
     case "-":
-      operation = getOperation(target)
-      break
     case "x":
-      operation = getOperation(target)
-      break
     case "/":
       operation = getOperation(target)
+      updateScreen()
       break
     case "DEL":
       del()
+      updateScreen()
       break
     case "RESET":
       reset()
+      updateScreen()
       break
     case "=":
-      calcResult(operation)
+      calcul(operation)
+      updateScreen()
       break
     default:
-      getNum(target)
+      getNumber(target)
+      updateScreen()
       break
   }
-}
-
-function calcResult(ope) {
-  if (ope === "+") addition()
-  if (ope === "-") soustraction()
-  if (ope === "x") mutiplication()
-  if (ope === "/") division()
-}
-
-function addition() {
-  const firstOpt = firstOperands.join("")
-  const secondOpt = secondOperands.join("")
-
-  calcEquals.textContent = "="
-  typingNum.textContent = Number(firstOpt) + Number(secondOpt)
-}
-
-function soustraction() {
-  const firstOpt = firstOperands.join("")
-  const secondOpt = secondOperands.join("")
-
-  calcEquals.textContent = "="
-  typingNum.textContent = Number(firstOpt) - Number(secondOpt)
-}
-
-function mutiplication() {
-  const firstOpt = firstOperands.join("")
-  const secondOpt = secondOperands.join("")
-
-  calcEquals.textContent = "="
-  typingNum.textContent = Number(firstOpt) * Number(secondOpt)
-}
-
-function division() {
-  const firstOpt = firstOperands.join("")
-  const secondOpt = secondOperands.join("")
-
-  calcEquals.textContent = "="
-  typingNum.textContent = Number(firstOpt) / Number(secondOpt)
-}
-
-function del() {
-  operation === undefined ? firstOperands.pop() : secondOperands.pop()
-
-  const firstOpt = firstOperands.join("")
-  const secondOpt = secondOperands.join("")
-
-  calcEquals.textContent = ""
-  chosen_1_Operand.textContent = firstOpt
-  chosen_2_Operand.textContent = secondOpt
-
-  typingNum.textContent =
-    operation === undefined ? Number(firstOpt) : Number(secondOpt)
-}
-
-function reset() {
-  firstOperands = []
-  secondOperands = []
-  operation = undefined
-
-  typingNum.textContent = "0"
-  calcEquals.textContent = ""
-  operandType.textContent = ""
-  chosen_1_Operand.textContent = ""
-  chosen_2_Operand.textContent = ""
 }
 
 checker.addEventListener("change", getThemeChoice)
